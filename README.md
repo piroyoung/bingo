@@ -24,6 +24,39 @@ npm install
 
 ## 🖥️ サーバーの起動方法
 
+### Docker を使用した起動（推奨）
+
+#### 事前準備
+- Docker がインストールされていること
+
+#### GitHub Container Registry から実行
+```bash
+# 最新版を実行
+docker run -p 3000:3000 ghcr.io/piroyoung/bingo:latest
+
+# 特定のバージョンを実行（例：コミットSHA）
+docker run -p 3000:3000 ghcr.io/piroyoung/bingo:sha-abc1234
+```
+
+#### ローカルでビルドして実行
+```bash
+# リポジトリをクローン
+git clone https://github.com/piroyoung/bingo.git
+cd bingo
+
+# アプリケーションをビルド
+npm install
+npm run build
+
+# Dockerイメージをビルド
+docker build -t bingo .
+
+# コンテナを実行
+docker run -p 3000:3000 bingo
+```
+
+サーバーが起動すると、`http://localhost:3000` でアプリケーションにアクセスできます。
+
 ### 開発サーバーの起動
 
 開発環境でサーバーを起動する場合（ホットリロード機能付き）：
@@ -73,6 +106,12 @@ npm start
 - `npm start` - 本番サーバーを起動
 - `npm run typecheck` - TypeScript の型チェックを実行
 
+## 🐳 Docker コマンド
+
+- `docker build -t bingo .` - Dockerイメージをビルド
+- `docker run -p 3000:3000 bingo` - コンテナを実行
+- `docker pull ghcr.io/piroyoung/bingo:latest` - GitHub Container Registry から最新イメージを取得
+
 ## 📝 技術仕様
 
 - **フレームワーク**: Remix
@@ -80,6 +119,8 @@ npm start
 - **UI**: React
 - **ランタイム**: Node.js
 - **パッケージマネージャー**: npm
+- **コンテナ**: Docker (Node.js 18 Alpine)
+- **レジストリ**: GitHub Container Registry (ghcr.io)
 
 ## 📄 ライセンス
 
