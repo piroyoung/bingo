@@ -11,11 +11,12 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install only production dependencies
-RUN npm ci --only=production
+# Install all dependencies (clean install)
+RUN rm -rf node_modules package-lock.json && npm install
 
-# Copy pre-built application
+# Copy pre-built application and public assets
 COPY --chown=remix:nodejs ./build ./build
+COPY --chown=remix:nodejs ./public ./public
 
 # Switch to non-root user
 USER remix
@@ -23,5 +24,5 @@ USER remix
 # Expose port
 EXPOSE 3000
 
-# Start the application using full path
-CMD ["node_modules/.bin/remix-serve", "build/index.js"]
+# Start the application
+CMD ["npx", "@remix-run/serve@2.17.0", "build/index.js"]
